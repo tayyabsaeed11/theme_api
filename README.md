@@ -50,7 +50,7 @@ DEBUG=True
 SECRET_KEY=<your-secret-key>
 DB_NAME=db_theme
 DB_USER=dev_theme
-DB_PASSWORD=dev@123
+DB_PASSWORD=12345678
 DB_HOST=localhost
 DB_PORT=5432
 
