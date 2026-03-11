@@ -1,6 +1,9 @@
 from django.urls import path
-from .views import ThemeDataAPIView
+from .views import ThemeDataAPIView, ThemeListAPIView, StoryListAPIView, CategoryListAPIView
 
 urlpatterns = [
-    path('data/', ThemeDataAPIView.as_view(), name='theme-data'),
+    path('fonts/', ThemeDataAPIView.as_view(), name='theme-data'),
+    path('themes/', ThemeListAPIView.as_view(), name='themes'),
+    path('stories/', StoryListAPIView.as_view(), name='stories'),
+    path('categories/', CategoryListAPIView.as_view(), name='categories'),
 ]
