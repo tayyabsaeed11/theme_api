@@ -2,7 +2,6 @@ from django.db import models
 
 
 class Category(models.Model):
-    id = models.CharField(max_length=50, primary_key=True)
     name = models.CharField(max_length=100)
 
     def __str__(self):
@@ -10,19 +9,15 @@ class Category(models.Model):
 
 
 class Theme(models.Model):
-    id = models.CharField(max_length=50, primary_key=True)
     category = models.ForeignKey(Category, related_name='themes', on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
-
-    thumbnail = models.URLField(blank=True, null=True)
+    thumbnail = models.ImageField(upload_to='themes/thumbnails/', blank=True, null=True)
     textColor = models.CharField(max_length=20)
     actionIconColor = models.CharField(max_length=20)
-    actionBg = models.URLField(blank=True, null=True)
-
-    keyboardBg = models.URLField(blank=True, null=True)
+    actionBg = models.ImageField(upload_to='themes/action_bg/', blank=True, null=True)
+    keyboardBg = models.ImageField(upload_to='themes/keyboard_bg/', blank=True, null=True)
     keyboardBgColor = models.CharField(max_length=20)
-    keysBg = models.URLField(blank=True, null=True)
-
+    keysBg = models.ImageField(upload_to='themes/keys_bg/', blank=True, null=True)
     isPremium = models.BooleanField(default=False)
     downloads = models.IntegerField(default=0)
     sortOrder = models.IntegerField(default=0)
@@ -33,7 +28,7 @@ class Theme(models.Model):
 
 
 class Story(models.Model):
-    imageUrl = models.URLField()
+    imageUrl = models.ImageField(upload_to='stories/')  # changed here too (optional but recommended)
     category = models.ForeignKey(Category, related_name='stories', on_delete=models.CASCADE)
 
     def __str__(self):
