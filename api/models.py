@@ -13,7 +13,7 @@ class Theme(models.Model):
     name = models.CharField(max_length=100)
     thumbnail = models.ImageField(upload_to='themes/thumbnails/', blank=True, null=True)
     textColor = models.CharField(max_length=20, blank=True, null=True)
-    actionIconColor = models.CharField(max_length=20)
+    actionIconColor = models.CharField(max_length=20, blank=True, null=True)
     actionBg = models.ImageField(upload_to='themes/action_bg/', blank=True, null=True)
     keyboardBg = models.ImageField(upload_to='themes/keyboard_bg/', blank=True, null=True)
     keyboardBgColor = models.CharField(max_length=20, blank=True, null=True)
@@ -21,7 +21,7 @@ class Theme(models.Model):
     isPremium = models.BooleanField(default=False)
     downloads = models.IntegerField(default=0)
     sortOrder = models.IntegerField(default=0)
-    createdAt = models.BigIntegerField()
+    createdAt = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.name
