@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Category, Theme, Story
+from .models import Category, Theme, Story, Sticker
 
 
 class ThemeSerializer(serializers.ModelSerializer):
@@ -18,7 +18,27 @@ class CategorySerializer(serializers.ModelSerializer):
 
 class StorySerializer(serializers.ModelSerializer):
     categoryName = serializers.CharField(source='category.name')
+    stickers = serializers.SerializerMethodField()
 
     class Meta:
         model = Story
-        fields = ['imageUrl', 'categoryName']
+        fields = ['imageUrl', 'categoryName', 'stickers']
+
+    def get_stickers(self, obj):
+        data = {}
+        for sticker in obj.stickers.all():
+            category = sticker.category.name
+
+            if category not in data:
+                data[category] = []
+
+            data[category].append({
+                "sticker": sticker.image.url
+            })
+
+        return data
+
+class StickerSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Sticker
+        fields = ['image']

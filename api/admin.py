@@ -1,10 +1,8 @@
 from django.contrib import admin
-
-# Register your models here.
-from django.contrib import admin
-from .models import Category, Theme, Story
+from .models import Category, Theme, Story, Sticker, StickerCategory
 
 
+# ================= CATEGORY =================
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ('id', 'name')
@@ -12,6 +10,22 @@ class CategoryAdmin(admin.ModelAdmin):
     ordering = ('name',)
 
 
+# ================= STICKER CATEGORY =================
+@admin.register(StickerCategory)
+class StickerCategoryAdmin(admin.ModelAdmin):
+    list_display = ('id', 'name')
+    search_fields = ('name',)
+
+
+# ================= STICKER =================
+@admin.register(Sticker)
+class StickerAdmin(admin.ModelAdmin):
+    list_display = ('id', 'category', 'image')
+    list_filter = ('category',)
+    search_fields = ('category__name',)
+
+
+# ================= THEME =================
 @admin.register(Theme)
 class ThemeAdmin(admin.ModelAdmin):
     list_display = (
@@ -31,8 +45,10 @@ class ThemeAdmin(admin.ModelAdmin):
     list_per_page = 20
 
 
+# ================= STORY =================
 @admin.register(Story)
 class StoryAdmin(admin.ModelAdmin):
-    list_display = ('imageUrl', 'category')
+    list_display = ('id', 'imageUrl', 'category')
     list_filter = ('category',)
     search_fields = ('category__name',)
+    filter_horizontal = ('stickers',)

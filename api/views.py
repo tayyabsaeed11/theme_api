@@ -46,7 +46,7 @@ class ThemeListAPIView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
-        themes = Theme.objects.all()
+        themes = Theme.objects.all().order_by('sortOrder')  # 🔥 important
         serializer = ThemeSerializer(themes, many=True)
 
         return Response({
