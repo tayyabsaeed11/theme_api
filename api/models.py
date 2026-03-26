@@ -44,10 +44,26 @@ class Theme(models.Model):
         ordering = ['sortOrder']
 
 
+class StoryCategory(models.Model):
+    name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.name
+
+
 class Story(models.Model):
     imageUrl = models.ImageField(upload_to='stories/')
-    category = models.ForeignKey(Category, related_name='stories', on_delete=models.CASCADE)
-    stickers = models.ManyToManyField(Sticker, blank=True)
+    thumbnailUrl = models.ImageField(upload_to='stories/thumbnails/', blank=True, null=True)
+    category = models.ForeignKey(StoryCategory,related_name='stories',on_delete=models.CASCADE)
 
     def __str__(self):
         return f"{self.category.name} Story"
+
+
+# ================= MULTIPLE TEXT IMAGES =================
+class StoryTextImage(models.Model):
+    story = models.ForeignKey(Story,related_name='textImages',on_delete=models.CASCADE)
+    image = models.ImageField(upload_to='stories/text/')
+
+    def __str__(self):
+        return f"TextImage for {self.story.id}"

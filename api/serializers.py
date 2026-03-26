@@ -18,27 +18,24 @@ class CategorySerializer(serializers.ModelSerializer):
 
 class StorySerializer(serializers.ModelSerializer):
     categoryName = serializers.CharField(source='category.name')
-    stickers = serializers.SerializerMethodField()
+    textImages = serializers.SerializerMethodField()
 
     class Meta:
         model = Story
-        fields = ['imageUrl', 'categoryName', 'stickers']
+        fields = ['id','imageUrl', 'thumbnailUrl', 'categoryName', 'textImages']
 
-    def get_stickers(self, obj):
-        data = {}
-        for sticker in obj.stickers.all():
-            category = sticker.category.name
-
-            if category not in data:
-                data[category] = []
-
-            data[category].append({
-                "sticker": sticker.image.url
-            })
-
-        return data
+    def get_textImages(self, obj):
+        return [
+            img.image.url if img.image else None
+            for img in obj.textImages.all()
+        ]
 
 class StickerSerializer(serializers.ModelSerializer):
+    sticker = serializers.SerializerMethodField()
+
     class Meta:
         model = Sticker
-        fields = ['image']
+        fields = ['sticker']
+
+    def get_sticker(self, obj):
+        return obj.image.url if obj.image else None
